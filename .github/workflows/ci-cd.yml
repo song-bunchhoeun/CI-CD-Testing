@@ -8,11 +8,11 @@ on:
 
 jobs:
   test:
-    run_on: ubuntu-latest
+    runs_on: ubuntu-latest
     container:
       images: node:20
     steps:
-      - uses: action/checkout@v4
+      - uses: actions/checkout@v3
         with: node-version: 20
       - run: npm ci
       - run: npm test 
