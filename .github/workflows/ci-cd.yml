@@ -1,11 +1,6 @@
-#TEST CI
-name: Node.js CI
+name: Node.js CI (Subfolder)
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -19,11 +14,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        # We removed the 'cache' line to stop the error 
-        # unless you have a package-lock.json committed.
+        # If your lock file is in a subfolder, you MUST specify the path:
+        cache: 'npm'
+        cache-dependency-path: './YOUR_SUBFOLDER_NAME/package-lock.json'
 
-    - name: Install Dependencies
-      run: npm install
-
-    - name: Run Tests
-      run: npm test --if-present
+    - name: Install and Test
+      # 'working-directory' tells GitHub where to run the commands
+      working-directory: ./YOUR_SUBFOLDER_NAME 
+      run: |
+        npm install
+        npm test --if-present
