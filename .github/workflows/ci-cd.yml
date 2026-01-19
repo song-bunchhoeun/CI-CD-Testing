@@ -1,19 +1,28 @@
-#Testing
 name: Testing Project
 
 on:
-  pull_resquest:
+  pull_request:         # Fixed typo: was pull_resquest
     branches:
-      ["master"]
+      - master          # Standard list format
 
 jobs:
   test:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
+    # Fixed 'images' to 'image' (singular)
     container:
-      images: node:20
+      image: node:20 
+    
     steps:
-      - uses: actions/checkout@v3
-        with: node-version: 20
-      - run: npm ci
-      - run: npm test 
-      - run: npm run build 
+      - uses: actions/checkout@v4 # Updated to v4 for latest features
+
+      # Note: actions/checkout doesn't take node-version. 
+      # Since you are using a 'container', Node is already installed.
+      
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test 
+
+      - name: Build project
+        run: npm run build
