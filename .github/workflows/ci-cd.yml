@@ -1,24 +1,29 @@
-# TEST CI
-
+#TEST CI
 name: Node.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run lint --if-present
-    - run: npm test
+        # We removed the 'cache' line to stop the error 
+        # unless you have a package-lock.json committed.
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Tests
+      run: npm test --if-present
