@@ -11,19 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        # Removed 'cache: npm' to avoid the "lock file not found" error
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Install Dependencies
-      # Using 'npm install' ensures it works even if package-lock.json is missing
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Run Tests
-      # '--if-present' ensures the pipeline passes even if no tests are defined yet
-      run: npm test --if-present
+      - name: Run Tests
+        run: npm test --if-present
