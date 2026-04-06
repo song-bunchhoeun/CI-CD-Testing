@@ -1,0 +1,130 @@
+<!--
+title: test
+description: 
+published: true
+date: 2026-04-06T03:24:33.312Z
+tags: 
+editor: ckeditor
+dateCreated: 2026-04-06T03:24:33.312Z
+-->
+
+<p>apiVersion: v1</p>
+<p>kind: Namespace</p>
+<p>metadata:</p>
+<p>&nbsp; name: dgc-chatgpt-miniapp</p>
+<p>---</p>
+<p>apiVersion: apps/v1</p>
+<p>kind: Deployment</p>
+<p>metadata:</p>
+<p>&nbsp; name: chatgpt-miniapp-dev</p>
+<p>&nbsp; namespace: dgc-chatgpt-miniapp</p>
+<p>&nbsp; labels:</p>
+<p>&nbsp; &nbsp; app: dgc-chatgpt</p>
+<p>spec:</p>
+<p>&nbsp; replicas: 1</p>
+<p>&nbsp; selector:</p>
+<p>&nbsp; &nbsp; matchLabels:</p>
+<p>&nbsp; &nbsp; &nbsp; app: dgc-chatgpt</p>
+<p>&nbsp; template:</p>
+<p>&nbsp; &nbsp; metadata:</p>
+<p>&nbsp; &nbsp; &nbsp; labels:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; app: dgc-chatgpt</p>
+<p>&nbsp; &nbsp; spec:</p>
+<p>&nbsp; &nbsp; &nbsp; imagePullSecrets:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; - name: ghcr-auth</p>
+<p>&nbsp; &nbsp; &nbsp; containers:</p>
+<p>&nbsp; &nbsp; &nbsp; - name: chatgpt-app-1</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; image: "ghcr.io/skailabcambodia/skychat@sha256:3a011d6afc67aa8ad801cfb571ea5cf877422275ff52a2aefe389ee0211093b2"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; ports:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; - containerPort: 8080</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; env:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: SERVER_PORT</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "8081"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: SKYCHAT_JWT_SECRET</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "anything_would_be_fine_for_dev"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: REDIS_HOST</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "10.10.120.38"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: REDIS_PORT</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "6379"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_SYSTEM_PROMPT</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "You are a helpful assistant bot. You do not have any opinions towards the government. Always be polite! Always response in Khmer or English(only if necessary) language and for Cambodia context. Use Headings(medium) when suitable for long content. Keep it professional all the time. Keep it concise. Never response in Thai language. You are hosted by Digital Government Committee (dgc.gov.kh) inside an app called 'DG SuperApp"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_USE_SSL</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "true"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_ENDPOINT</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "oss-ap-southeast-1.aliyuncs.com"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_REGION</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: oss-ap-southeast-1</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_BUCKET_SSL</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "dgchatgpt-dev"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_AZURE_RESOURCE_NAME</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "mptc-dgc-aichat"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_AZURE_MODEL</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "gpt-4o"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_GOOGLE_MODEL</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "gemini-2.0-flash-001"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: APP_NAME</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "DG ChatGPT"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: APP_ICON</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "chatgpt"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_MODEL_PROVIDER</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value: "azure"</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_AZURE_API_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; valueFrom:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secretKeyRef:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: chatgpt-env-uat</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: AI_AZURE_API_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: AI_GOOGLE_API_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; valueFrom:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secretKeyRef:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: chatgpt-env-uat</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: AI_GOOGLE_API_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: DB_URI</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; valueFrom:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secretKeyRef:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: chatgpt-env-uat</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: DB_URI</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_ACCESS_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; valueFrom:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secretKeyRef:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: chatgpt-env-uat</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: S3_ACCESS_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - name: S3_SECRET_KEY</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; valueFrom:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secretKeyRef:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: chatgpt-env-uat</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; key: S3_SECRET_KEY</p>
+<p>---</p>
+<p>apiVersion: v1</p>
+<p>kind: Secret</p>
+<p>metadata:</p>
+<p>&nbsp; name: chatgpt-db-secret</p>
+<p>&nbsp; namespace: dgc-chatgpt-miniapp</p>
+<p>type: Opaque</p>
+<p>stringData:</p>
+<p>&nbsp; username: &lt;username&gt;</p>
+<p>&nbsp; password: &lt;password&gt;</p>
+<p>---</p>
+<p>apiVersion: v1</p>
+<p>kind: Service</p>
+<p>metadata:</p>
+<p>&nbsp; name: chatgpt-dev-service-nodeport</p>
+<p>&nbsp; namespace: dgc-chatgpt-miniapp</p>
+<p>spec:</p>
+<p>&nbsp; type: NodePort</p>
+<p>&nbsp; ports:</p>
+<p>&nbsp; &nbsp; - port: 8080</p>
+<p>&nbsp; &nbsp; &nbsp; targetPort: 8080</p>
+<p>&nbsp; &nbsp; &nbsp; nodePort: 30086</p>
+<p>&nbsp; selector:</p>
+<p>&nbsp; &nbsp; app: dgc-chatgpt</p>
+<p><br>&nbsp;</p>
+<p>&nbsp; sessionAffinity: ClientIP</p>
+<p>&nbsp; sessionAffinityConfig:</p>
+<p>&nbsp; &nbsp; clientIP:</p>
+<p>&nbsp; &nbsp; &nbsp; timeoutSeconds: 86400</p>
+<p>&nbsp; externalTrafficPolicy: Local</p>
+<p>&nbsp; internalTrafficPolicy: Cluster</p>
+<p>&nbsp; ipFamilyPolicy: SingleStack</p>
+<p>&nbsp; ipFamilies:</p>
+<p>&nbsp; &nbsp; - IPv4</p>
+<p><br><br>&nbsp;</p>
